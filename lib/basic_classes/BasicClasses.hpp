@@ -3,11 +3,16 @@
 
 class IdentityClass {
 public:
-    IdentityClass(long int id);
+    IdentityClass(long int id, float x,float y,float z, float size);
     long int getID() const;
+    Coordinates getCoordinates() const;
+    float getSize();
+    void setCoordinates(const Coordinates& coordinates);
 
 private:
-    long int m_id;           
+    long int m_id;
+    float m_x,m_y,m_z;
+    float m_size;
 };
 
 #endif // IDENTITYCLASS_HPP
@@ -17,19 +22,16 @@ private:
 
 #include <vector>
 
-class RigidityClass {
+class MassClass {
 public:
     RigidityClass(double mass = 0.0, const std::vector<double>& vector = std::vector<double>());
 
     double getMass() const;
-    const std::vector<double>& getVector() const;
 
     void setMass(double mass);
-    void setVector(const std::vector<double>& vector);
 
 private:
     double m_mass;
-    std::vector<double> m_vector;
 };
 
 #endif // RIGIDITYCLASS_HPP

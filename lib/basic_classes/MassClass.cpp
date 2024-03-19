@@ -1,7 +1,7 @@
 #include "MassClass.hpp"
 
-RigidityClass::RigidityClass(double mass, const std::vector<double>& vector)
-    : m_mass(mass), m_vector(vector) {}
+RigidityClass::RigidityClass(double mass)
+    : m_mass(mass) {}
 
 double RigidityClass::getMass() const {
     return m_mass;

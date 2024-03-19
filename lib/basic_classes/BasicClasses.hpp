@@ -20,11 +20,9 @@ private:
 #ifndef RIGIDITYCLASS_HPP
 #define RIGIDITYCLASS_HPP
 
-#include <vector>
-
 class MassClass {
 public:
-    RigidityClass(double mass = 0.0, const std::vector<double>& vector = std::vector<double>());
+    RigidityClass(double mass = 0.0);
 
     double getMass() const;
 

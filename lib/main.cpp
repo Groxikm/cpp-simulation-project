@@ -1,11 +1,12 @@
-#include <iostream>
+/*#include <iostream>
 #include "../lib/AbstractCell.hpp"
 #include "../lib/MassCell.hpp"
 #include "../lib/MovableInterface.hpp"
-#include "../lib/Simulation.hpp"
+#include "../lib/Simulation.hpp"*/
+#include "MassCell.cpp"
 
 int main() {
-    MassCell();
+    MassCell a;
     //cout << ;
     return 0;
 }

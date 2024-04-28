@@ -7,7 +7,6 @@
 
 class MassCell : virtual public AbstractCell, virtual public MovableInterface {
 public:
-    ~MassCell();
     MassCell(long id, float x, float y, float mass, float speed, float direction);
     //: m_ID(id), m_x(x), m_y(y), m_mass(mass), m_speed(speed), m_direction(direction)
 

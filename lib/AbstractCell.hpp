@@ -2,8 +2,8 @@
 #define ABSTRACTCELL_HPP
 
 class AbstractCell {
-private:
-    virtual ~AbstractCell() = default;
+//private:
+//    virtual ~AbstractCell() = default;
 public:
 //    AbstractCell(long given_id);
     virtual long getID() = 0;

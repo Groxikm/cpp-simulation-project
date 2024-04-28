@@ -7,7 +7,7 @@
 #include "MassCell.cpp"
 
 int main() {
-    MassCell massCell;
+    MassCell massCell = MassCell(123L, 10, 10, 15, 100, 0);
     return 0;
 };
 

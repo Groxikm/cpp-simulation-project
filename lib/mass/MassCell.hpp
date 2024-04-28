@@ -1,8 +1,8 @@
 #ifndef MASSCELL_HPP
 #define MASSCELL_HPP
 
-#include "MovableInterface.hpp"
-#include "AbstractCell.hpp"
+#include "../abstracts/MovableInterface.hpp"
+#include "../abstracts/AbstractCell.hpp"
 
 
 class MassCell : virtual public AbstractCell, virtual public MovableInterface {

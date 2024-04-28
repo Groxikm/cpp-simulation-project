@@ -4,7 +4,7 @@
 
 #ifndef CPP_SIMULATION_PROJECT_MAIN_H
 #define CPP_SIMULATION_PROJECT_MAIN_H
-#include "MassCell.cpp"
+#include "mass/MassCell.cpp"
 
 int main() {
     MassCell massCell = MassCell(123L, 10, 10, 15, 100, 0);

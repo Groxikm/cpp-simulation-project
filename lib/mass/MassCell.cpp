@@ -1,7 +1,7 @@
 #include "MassCell.hpp"
 #include <cmath>
 
-MassCell :: MassCell ( long id , float x , float y , float mass , float speed , float direction )
+MassCell::MassCell ( long id , float x , float y , float mass , float speed , float direction )
 {
     this->m_ID= id;
     this->m_x = x;

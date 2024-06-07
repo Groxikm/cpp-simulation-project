@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../console-interface/coursor-handler.cpp"
+#include "../console-interface/f-coursor-handler.cpp"
 class ConsoleOutput {
 public:
     // Constructor that accepts pairs of information strings and values
@@ -10,7 +10,6 @@ public:
     }
 
 private:
-    int n_outputs_called;
     // Function to output information strings and values to the console
     template<typename T>
     void output(const std::string& info, const T& value) {

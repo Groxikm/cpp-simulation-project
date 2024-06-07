@@ -3,9 +3,10 @@
 
 class AbstractCell {
 //private:
-//    virtual ~AbstractCell() = default;
+
 public:
 //    AbstractCell(long given_id);
+//    virtual ~AbstractCell() = default; //no obvious sense in having a destructor in such interface
     virtual long getID() = 0;
     virtual void setX(float x) = 0;
     virtual float getX() = 0;

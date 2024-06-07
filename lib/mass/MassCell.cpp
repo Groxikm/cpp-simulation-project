@@ -1,21 +1,26 @@
 #include "MassCell.hpp"
 #include <cmath>
+#include <iostream>
 
-MassCell::MassCell ( long id , float x , float y , float mass , float speed , float direction )
-{
-    this->m_ID= id;
-    this->m_x = x;
-    this->m_y= y ;
-    this->m_mass = mass;
-    this->m_speed = speed;
-    this->m_direction = direction;
+// CopyConstructor
+MassCell::MassCell(const MassCell& other)
+        : m_ID(other.m_ID), m_x(other.m_x), m_y(other.m_y), m_mass(other.m_mass), m_speed(other.m_speed), m_direction(other.m_direction) {
+    std::cout << "MassCell copied with ID: " << other.m_ID << std::endl;
 }
 
-void MassCell::move() {
-    m_x += m_speed * cos(m_direction);
-    m_y += m_speed * sin(m_direction);
+// destructor
+MassCell::~MassCell() {
+    std::cout << "MassCell with ID: " << m_ID << " is destroyed" << std::endl;
 }
 
 //mass methods
-void MassCell::setMass(float mass) { m_mass = mass; }
-float MassCell::getMass() { return m_mass; }
+void MassCell::setMass(float mass) {
+    m_mass = mass;
+}
+
+
+// movable methods
+void MassCell::move() {
+    m_x += m_speed * std::cos(m_direction);
+    m_y += m_speed * std::sin(m_direction);
+}

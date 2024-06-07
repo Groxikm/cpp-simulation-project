@@ -1,29 +1,46 @@
+#include "../lib/mass/MassCell.hpp"
+
+
+#include <vector>
+#include <memory>
+
 class Simulation {
 public:
-    Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height); //better to use vectors, later
+    Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long ID); //better to use vectors, later
+    //field logic
+    float getTimeCoefficient();
+    void setTimeCoefficient(float m_time_coeff);
+    virtual float getGravityCoefficient();
+    virtual void setGravityCoefficient(float m_gravity_coeff);
+    virtual float getReactionCoefficient();
+    virtual void setReactionCoefficient(float m_reaction_coeff);
+    virtual bool isCeiling();
+    virtual void setCeiling(bool ceiling);
+    virtual float getGroundWidth() ;
+    virtual void setGroundWidth(float m_ground_width);
+    virtual float getWallsHeight() ;
+    virtual void setWallsHeight(float m_walls_height);
+    virtual long getID();
+    //objects logic
+    virtual void instantiateMassCell(long id, float x, float y, float mass, float speed, float direction);
+    virtual void destroyObject();
+    virtual unsigned int getObjectAmount();
 
-    virtual float getTimeCoefficient() = 0;
-    virtual void setTimeCoefficient(float time_coeff) = 0;
-    virtual float getGravityCoefficient() = 0;
-    virtual void setGravityCoefficient(float gravity_coeff) = 0;
-    virtual float getReactionCoefficient() = 0;
-    virtual void setReactionCoefficient(float reaction_coeff) = 0;
-    virtual bool isCeiling() = 0;
-    virtual void setCeiling(bool ceilor) = 0;
-    virtual float getGroundWidth() = 0;
-    virtual void setGroundWidth(float ground_width) = 0;
-    virtual float getWallsHeight()  = 0;
-    virtual void setWallsHeight(float walls_height) = 0;;
+    virtual void applyGravity(std::shared_ptr<MassCell> cell);
+    virtual void run();
 
 private:
-    const static float dt;
-    float timeCoefficient;
-    float gravityCoefficient;
-    float reactionCoefficient;
-    bool ceilor;
-    float groundWidth;
-    float wallsHeight;
+    const static float m_dt;
+    float m_timeCoefficient;
+    float m_gravityCoefficient;
+    float m_reactionCoefficient;
+    bool m_ceiling;
+    float m_groundWidth;
+    float m_wallsHeight;
+    long m_ID;
+
+    unsigned int object_amount;
 
 protected:
-
+    std::vector<std::shared_ptr<MassCell>> pointers;
 };

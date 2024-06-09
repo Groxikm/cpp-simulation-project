@@ -1,12 +1,9 @@
 #include "Simulation.hpp"
-#include "../lib/mass/MassCell.cpp"
-#include "../lib/mass/MassCell.hpp"
 //#include "constructors/instantiateObject_constructors.hpp"
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <cmath>
-
 Simulation::Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long id)
         :  m_timeCoefficient(time_coeff), m_gravityCoefficient(gravity_coeff), m_reactionCoefficient(reaction_coeff), m_ceiling(ceiling), m_groundWidth(ground_width), m_wallsHeight(walls_height), m_ID(id) {
 }
@@ -27,6 +24,9 @@ long Simulation::getID() { return m_ID; }
 
 //object logic, a default instantiation
 //vector<shared_ptr<MassCell>> objects;
+void Simulation::destroyObject(std::shared_ptr<MassCell> cell) {
+    cell->~MassCell();
+}
 
 
 void Simulation::applyGravity(std::shared_ptr<MassCell> cell) {

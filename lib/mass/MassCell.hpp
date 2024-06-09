@@ -24,9 +24,9 @@ public:
     void setY(float y) override { this->m_y = y; }
     //mass methods
     virtual float getMass() const { return m_mass;}
-    virtual void setMass(float mass);
+    virtual void setMass(float mass) ;
     //moveable methods
-    virtual void move() override;
+    virtual void move() ;
     void setVelocity(float speed, float direction) override {
         this->m_speed = speed;
         this->m_direction = direction;

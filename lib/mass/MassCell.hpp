@@ -4,39 +4,35 @@
 #include "../abstracts/MovableInterface.hpp"
 #include "../abstracts/AbstractCell.hpp"
 #include <iostream>
+#include <cmath>
 
 class MassCell : virtual public AbstractCell, virtual public MovableInterface {
 public:
-    MassCell(long id, float x, float y, float mass, float speed, float direction)
-            : m_ID(id), m_x(x), m_y(y), m_mass(mass), m_speed(speed), m_direction(direction) {
-        std::cout << "MassCell created with ID: " << id << std::endl;
-    }
-    //: m_ID(id), m_x(x), m_y(y), m_mass(mass), m_speed(speed), m_direction(direction)
-
+    MassCell(long id, float x, float y, float mass, float speed, float direction);
     MassCell();
-    ~MassCell();
     MassCell(const MassCell& other);
-    //abstract methods
+    ~MassCell();
+
+    // Abstract methods
     float getX() override { return m_x; }
-    void setX(float x) override { this->m_x = x; }
-    long getID() override { return this->m_ID; }
-    float getY() override { return m_y; };
-    void setY(float y) override { this->m_y = y; }
-    //mass methods
-    virtual float getMass() const { return m_mass;}
-    virtual void setMass(float mass) ;
-    //moveable methods
-    virtual void move() ;
-    void setVelocity(float speed, float direction) override {
-        this->m_speed = speed;
-        this->m_direction = direction;
-    }
-    float getSpeed() override { return this->m_speed;}
-    float getDirection() override {return this->m_direction; }
+    void setX(float x) override { m_x = x; }
+    long getID() override { return m_ID; }
+    float getY() override { return m_y; }
+    void setY(float y) override { m_y = y; }
 
-    /*float getSpeed();
-    void getDirection();//the methods aren't needed to be redifined */
+    // Mass methods
+    float getMass() const { return m_mass; }
+    void setMass(float mass);
 
+    // Movable methods
+    void move(float time_step);
+    void setVelocity(float speed, float direction) override;
+    float getSpeed() override { return m_speed; }
+    float getDirection() override { return m_direction; }
+
+    // Force methods
+    void applyForce(float fx, float fy);
+    void update(float time_step);
 
 private:
     long m_ID;
@@ -45,6 +41,10 @@ private:
     float m_y;
     float m_speed;
     float m_direction;
+    float m_vx;
+    float m_vy;
+    float m_ax;
+    float m_ay;
 };
 
 #endif // MASSCELL_HPP

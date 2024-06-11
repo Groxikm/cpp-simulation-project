@@ -24,7 +24,7 @@ public:
     void setY(float y) override;
 
     // Movable methods
-    void move(float time_step);
+    void move(float time_step) override;
     void setVelocity(float speed, float direction) override;
     float getSpeed() override;
     float getDirection() override;

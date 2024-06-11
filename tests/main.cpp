@@ -12,10 +12,10 @@ int main() {
     Simulation simulation(0.1f, 9.8f, 0.5f, true, 100.0f, 50.0f, 1);
 
     // Instantiate some MassCell objects
-    MassCell cell1 = MassCell(1, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f);
+    //MassCell cell1 = MassCell(1, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f);
 
-    //std::shared_ptr<MassCell> cell1 = std::make_shared<MassCell>(1, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f);
-    //std::shared_ptr<MassCell> cell2 = std::make_shared<MassCell>(2, 1.0f, 1.0f, 1.0f, 2.0f, 3.14f);
+    std::shared_ptr<MassCell> cell1 = std::make_shared<MassCell>(1, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f);
+    std::shared_ptr<MassCell> cell2 = std::make_shared<MassCell>(2, 1.0f, 1.0f, 1.0f, 2.0f, 3.14f);
 
     // Run the simulation
     simulation.run(0.1f); // Pass the time step

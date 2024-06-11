@@ -32,9 +32,9 @@ void Simulation::applyGravity(std::shared_ptr<MassCell> cell) {
     applyForce(cell, 0, -gravity_force);
 }
 
-void Simulation::instantiateMassCell(long id, float x, float y, float mass, float speed, float direction) {
-    auto massCell = std::make_shared<MassCell>(id, x, y, mass, speed, direction);
-    pointers.push_back(massCell);
+void Simulation::instantiateMassCell(std::shared_ptr<MassCell> cell) {
+    //auto massCell = std::make_shared<MassCell>(id, x, y, mass, speed, direction);
+    pointers.push_back(cell);
     std::cout << "MassCell instantiated. Total objects: " << pointers.size() << std::endl;
 }
 

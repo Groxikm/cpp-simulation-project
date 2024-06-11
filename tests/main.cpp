@@ -1,6 +1,5 @@
-
-#include "../lib/mass/MassCell.cpp"
-#include "../simulations/Simulation.cpp"
+#include "../lib/mass/MassCell.hpp"
+#include "../simulations/Simulation.hpp"
 #include "../console-interface/Output-in-Console.cpp"
 
 
@@ -13,8 +12,10 @@ int main() {
     Simulation simulation(0.1f, 9.8f, 0.5f, true, 100.0f, 50.0f, 1);
 
     // Instantiate some MassCell objects
-    simulation.instantiateMassCell(1, 0.0f, 0.0f, 5.0f, 1.0f, 0.0f);
-    simulation.instantiateMassCell(2, 10.0f, 10.0f, 10.0f, 2.0f, 3.14f / 4); // 45 degrees
+    MassCell cell1 = MassCell(1, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f);
+
+    //std::shared_ptr<MassCell> cell1 = std::make_shared<MassCell>(1, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f);
+    //std::shared_ptr<MassCell> cell2 = std::make_shared<MassCell>(2, 1.0f, 1.0f, 1.0f, 2.0f, 3.14f);
 
     // Run the simulation
     simulation.run(0.1f); // Pass the time step

@@ -26,7 +26,7 @@ public:
 
     // Simulation logic methods
     void applyForce(std::shared_ptr<MassCell> cell, float fx, float fy);
-    void instantiateMassCell(long id, float x, float y, float mass, float speed, float direction);
+    void instantiateMassCell(std::shared_ptr<MassCell> cell);
     void run(float time_step);
 
 private:

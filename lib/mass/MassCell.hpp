@@ -8,31 +8,35 @@
 
 class MassCell : virtual public AbstractCell, virtual public MovableInterface {
 public:
-    MassCell(long id, float x, float y, float mass, float speed, float direction);
-    MassCell();
+    MassCell(long id, float x, float y, float mass, float speed, float direction)
+            : m_ID(id), m_x(x), m_y(y), m_mass(mass), m_speed(speed), m_direction(direction), m_vx(speed * cos(direction)), m_vy(speed * sin(direction)), m_ax(0), m_ay(0) {
+        std::cout << "MassCell created with ID: " << id << std::endl;
+    }
+    //MassCell();
     MassCell(const MassCell& other);
     ~MassCell();
 
     // Abstract methods
-    float getX() override { return m_x; }
-    void setX(float x) override { m_x = x; }
-    long getID() override { return m_ID; }
-    float getY() override { return m_y; }
-    void setY(float y) override { m_y = y; }
-
-    // Mass methods
-    float getMass() const { return m_mass; }
-    void setMass(float mass);
+    float getX() override;
+    void setX(float x) override;
+    long getID() override;
+    float getY() override;
+    void setY(float y) override;
 
     // Movable methods
     void move(float time_step);
     void setVelocity(float speed, float direction) override;
-    float getSpeed() override { return m_speed; }
-    float getDirection() override { return m_direction; }
+    float getSpeed() override;
+    float getDirection() override;
+
+    // Mass methods
+    float getMass() ;
+    void setMass(float mass);
+
+
 
     // Force methods
     void applyForce(float fx, float fy);
-    void update(float time_step);
 
 private:
     long m_ID;

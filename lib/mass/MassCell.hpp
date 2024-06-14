@@ -8,10 +8,7 @@
 
 class MassCell : virtual public AbstractCell, virtual public MovableInterface {
 public:
-    MassCell(long id, float x, float y, float mass, float speed, float direction)
-            : m_ID(id), m_x(x), m_y(y), m_mass(mass), m_speed(speed), m_direction(direction), m_vx(speed * cos(direction)), m_vy(speed * sin(direction)), m_ax(0), m_ay(0) {
-        std::cout << "MassCell created with ID: " << id << std::endl;
-    }
+    MassCell(long id, float x, float y, float mass, float speed, float direction);
     //MassCell();
     MassCell(const MassCell& other);
     ~MassCell();
@@ -32,9 +29,7 @@ public:
     // Mass methods
     float getMass() ;
     void setMass(float mass);
-
-
-
+    
     // Force methods
     void applyForce(float fx, float fy);
 

@@ -5,9 +5,7 @@
 #include <memory>
 #include <cmath>
 
-Simulation::Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long id)
-        :  m_timeCoefficient(m_timeCoefficient), m_gravityCoefficient(m_gravityCoefficient), m_reactionCoefficient(m_reactionCoefficient), m_ceiling(m_ceiling), m_groundWidth(m_groundWidth), m_wallsHeight(m_wallsHeight), m_ID(m_ID) {
-}
+//Simulation::
 // Field logic methods
 float Simulation::getTimeCoefficient() { return m_timeCoefficient; }
 void Simulation::setTimeCoefficient(float time_coeff) { m_timeCoefficient = time_coeff; }

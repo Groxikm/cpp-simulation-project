@@ -27,10 +27,10 @@ void Simulation::applyForce(std::shared_ptr<MassCell> cell, float fx, float fy) 
     cell->applyForce(fx, fy);
 }
 
-void Simulation::applyGravity(std::shared_ptr<MassCell> cell) {
+/*void Simulation::applyGravity(std::shared_ptr<MassCell> cell) {
     float gravity_force = m_gravityCoefficient * cell->getMass();
     applyForce(cell, 0, -gravity_force);
-}
+}*/
 
 void Simulation::instantiateMassCell(std::shared_ptr<MassCell> cell) {
     //auto massCell = std::make_shared<MassCell>(id, x, y, mass, speed, direction);
@@ -81,7 +81,7 @@ void Simulation::run(float time_step) {
 
     // Apply gravity to all cells
     for (const auto& cell : pointers) {
-        applyGravity(cell);
+        applyForce(cell, 0, m_gravityCoefficient);
     }
 
     // Update all cells

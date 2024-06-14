@@ -30,7 +30,7 @@ public:
     void run(float time_step);
 
 private:
-    void applyGravity(std::shared_ptr<MassCell> cell);
+    //void applyGravity(std::shared_ptr<MassCell> cell);
     void handleCollisions(float elasticity);
 
     float m_timeCoefficient;

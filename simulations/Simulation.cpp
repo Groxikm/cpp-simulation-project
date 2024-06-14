@@ -6,7 +6,7 @@
 #include <cmath>
 
 Simulation::Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long id)
-        :  m_timeCoefficient(time_coeff), m_gravityCoefficient(gravity_coeff), m_reactionCoefficient(reaction_coeff), m_ceiling(ceiling), m_groundWidth(ground_width), m_wallsHeight(walls_height), m_ID(id) {
+        :  m_timeCoefficient(m_timeCoefficient), m_gravityCoefficient(m_gravityCoefficient), m_reactionCoefficient(m_reactionCoefficient), m_ceiling(m_ceiling), m_groundWidth(m_groundWidth), m_wallsHeight(m_wallsHeight), m_ID(m_ID) {
 }
 // Field logic methods
 float Simulation::getTimeCoefficient() { return m_timeCoefficient; }

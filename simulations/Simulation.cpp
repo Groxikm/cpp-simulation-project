@@ -8,7 +8,7 @@
 Simulation::Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long id)
            :  m_timeCoefficient(m_timeCoefficient), m_gravityCoefficient(m_gravityCoefficient), m_reactionCoefficient(m_reactionCoefficient), m_ceiling(m_ceiling), m_groundWidth(m_groundWidth), m_wallsHeight(m_wallsHeight), m_ID(m_ID) {
     }
-// Field logic methods
+// Field logic methods (12)
 float Simulation::getTimeCoefficient() { return m_timeCoefficient; }
 void Simulation::setTimeCoefficient(float time_coeff) { m_timeCoefficient = time_coeff; }
 float Simulation::getGravityCoefficient() { return m_gravityCoefficient; }
@@ -23,26 +23,9 @@ float Simulation::getWallsHeight() { return m_wallsHeight; }
 void Simulation::setWallsHeight(float walls_height) { m_wallsHeight = walls_height; }
 long Simulation::getID() { return m_ID; }
 
+// Physical logic methods (4)
 void Simulation::applyForce(std::shared_ptr<MassCell> cell, float fx, float fy) {
     cell->applyForce(fx, fy);
-}
-
-void Simulation::run(float time_step) {
-    //std::cout << "Running simulation..." << std::endl;
-
-    // Apply gravity to all cells
-    for (const auto& cell : pointers) {
-        applyForce(cell, 0, m_gravityCoefficient);
-    }
-
-    // Update all cells
-    for (const auto& cell : pointers) {
-        cell->move(time_step);
-        std::cout << "Moved MassCell with ID: " << cell->getID() << " to position (" << cell->getX() << ", " << cell->getY() << ")" << std::endl;
-    }
-
-    // Handle collisions
-    handleCollisions(m_reactionCoefficient);
 }
 
 void Simulation::instantiateMassCell(std::shared_ptr<MassCell> cell) {
@@ -87,4 +70,22 @@ void Simulation::handleCollisions(float elasticity) {
             }
         }
     }
+}
+
+void Simulation::run(float time_step) {
+    //std::cout << "Running simulation..." << std::endl;
+
+    // Apply gravity to all cells
+    for (const auto& cell : pointers) {
+        applyForce(cell, 0, m_gravityCoefficient);
+    }
+
+    // Update all cells
+    for (const auto& cell : pointers) {
+        cell->move(time_step);
+        std::cout << "Moved MassCell with ID: " << cell->getID() << " to position (" << cell->getX() << ", " << cell->getY() << ")" << std::endl;
+    }
+
+    // Handle collisions
+    handleCollisions(m_reactionCoefficient);
 }

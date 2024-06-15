@@ -9,7 +9,7 @@ class Simulation {
 public:
     Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long ID);
 
-    // Field logic methods
+    // Field logic methods (12)
     float getTimeCoefficient();
     void setTimeCoefficient(float time_coeff);
     float getGravityCoefficient();
@@ -24,15 +24,14 @@ public:
     void setWallsHeight(float walls_height);
     long getID();
 
-    // Simulation logic methods
+    // Physical logic methods (4)
     void applyForce(std::shared_ptr<MassCell> cell, float fx, float fy);
     void instantiateMassCell(std::shared_ptr<MassCell> cell);
+    void handleCollisions(float elasticity);
     void run(float time_step);
 
-private:
-    //void applyGravity(std::shared_ptr<MassCell> cell);
-    void handleCollisions(float elasticity);
 
+private:
     float m_timeCoefficient;
     float m_gravityCoefficient;
     float m_reactionCoefficient;

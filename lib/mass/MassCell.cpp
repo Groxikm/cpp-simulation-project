@@ -37,8 +37,6 @@ void MassCell::move(float time_step) {
     m_vy += m_ay * time_step;
     m_x += m_vx * time_step;
     m_y += m_vy * time_step;
-    m_ax = 0;
-    m_ay = 0;
 }
 
 void MassCell::applyForce(float fx, float fy) {

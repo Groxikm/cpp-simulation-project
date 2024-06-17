@@ -84,8 +84,9 @@ void Simulation::run(float time_step) {
     for (const auto& cell : pointers) {
         cell->move(time_step);
         std::cout << "Moved MassCell with ID: " << cell->getID() << " to position (" << cell->getX() << ", " << cell->getY() << ")" << std::endl;
+        // Handle collisions
+        handleCollisions(m_reactionCoefficient);
     }
 
-    // Handle collisions
-    handleCollisions(m_reactionCoefficient);
+
 }

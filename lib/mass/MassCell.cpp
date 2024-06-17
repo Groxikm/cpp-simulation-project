@@ -3,7 +3,7 @@
 #include <iostream>
 
 MassCell::MassCell(long id, float x, float y, float mass, float speed, float direction)
-        : m_ID(m_ID), m_x(m_x), m_y(m_y), m_mass(m_mass), m_speed(m_speed), m_direction(m_direction), m_vx(m_vx), m_vy(m_vy), m_ax(m_ax), m_ay(m_ay) {
+        : m_ID(id), m_x(x), m_y(y), m_mass(mass), m_speed(speed), m_direction(direction), m_vx(m_vx = speed * cos(direction)), m_vy(m_vy = speed * sin(direction)), m_ax(0), m_ay(0) {
     std::cout << "MassCell created with ID: " << m_ID << std::endl;
 }
 MassCell::MassCell(const MassCell& other)

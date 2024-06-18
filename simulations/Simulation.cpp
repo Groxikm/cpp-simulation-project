@@ -46,10 +46,10 @@ void Simulation::handleCollisions(float elasticity) {
             float dy = cell2->getY() - cell1->getY();
             float distance = sqrt(dx * dx + dy * dy);
 
-            // Assuming cells are circular and have the same radius for simplicity
-            float radius = 1.0; // Adjust as needed
+            // cells are circular and have the same radius for simplicity
+            float radius = 1.0; // example
             if (distance < 2 * radius) {
-                // Calculate collision response
+
                 float nx = dx / distance;
                 float ny = dy / distance;
 
@@ -62,7 +62,6 @@ void Simulation::handleCollisions(float elasticity) {
                 float v2x = cell2->getSpeed() * cos(cell2->getDirection()) + p * cell1->getMass() * nx;
                 float v2y = cell2->getSpeed() * sin(cell2->getDirection()) + p * cell1->getMass() * ny;
 
-                // Apply elasticity
                 v1x *= elasticity;
                 v1y *= elasticity;
                 v2x *= elasticity;
@@ -93,16 +92,14 @@ void Simulation::calculateDistances() {
 }
 
 void Simulation::run(float time_step) {
-    // Apply gravity to all cells
     for (const auto& cell : pointers) {
         applyForce(cell, 0, m_gravityCoefficient);
     }
 
-    // Update all cells
+
     for (const auto& cell : pointers) {
         cell->move(time_step);
         std::cout << "Moved MassCell with ID: " << cell->getID() << " to position (" << cell->getX() << ", " << cell->getY() << ")" << std::endl;
-        // Handle collisions
         handleCollisions(m_reactionCoefficient);
     }
 

@@ -23,6 +23,8 @@ public:
     float getSpeed();
     float getDirection();
     void setVelocity(float speed, float direction);
+    float getVx();
+    float getVy();
     void move(float time_step);
     void applyForce(float fx, float fy);
 

@@ -26,6 +26,8 @@ float MassCell::getMass() { return m_mass; }
 void MassCell::setMass(float mass) { m_mass = mass; }
 float MassCell::getSpeed() { return m_speed; }
 float MassCell::getDirection() { return m_direction; }
+float MassCell::getVx() { return m_vx; }
+float MassCell::getVy() { return m_vy; }
 
 void MassCell::setVelocity(float speed, float direction) {
     m_speed = speed;

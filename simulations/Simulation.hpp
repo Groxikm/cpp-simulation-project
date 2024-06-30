@@ -26,6 +26,7 @@ public:
 
     void applyForce(std::shared_ptr<MassCell> cell, float fx, float fy);
     void applyForce(float force, float angle, std::shared_ptr<MassCell> cell);
+    void applyGravity();
     void instantiateMassCell(std::shared_ptr<MassCell> cell);
     void handleCollisions(float elasticity);
     void calculateDistances();

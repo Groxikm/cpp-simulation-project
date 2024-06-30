@@ -21,6 +21,13 @@ float Simulation::getWallsHeight() { return m_wallsHeight; }
 void Simulation::setWallsHeight(float walls_height) { m_wallsHeight = walls_height; }
 long Simulation::getID() { return m_ID; }
 
+void Simulation::applyGravity() {
+    for (const auto& cell : pointers) {
+        // Apply gravitational force downward
+        cell->applyForce(0, -m_gravityCoefficient * cell->getMass());
+    }
+}
+
 void Simulation::applyForce(std::shared_ptr<MassCell> cell, float fx, float fy) {
     cell->applyForce(fx, fy);
 }
@@ -37,58 +44,79 @@ void Simulation::instantiateMassCell(std::shared_ptr<MassCell> cell) {
 }
 
 void Simulation::handleCollisions(float elasticity) {
-    float radius = 10.0; // example, adjust if necessary
-
+    float radius = 10.0; // Assume a fixed radius for simplicity
+    float tolerance = 0.03f; //to make sure calculations don't mess up
     // Handle cell-to-cell collisions
     for (size_t i = 0; i < pointers.size(); ++i) {
         for (size_t j = i + 1; j < pointers.size(); ++j) {
             auto cell1 = pointers[i];
             auto cell2 = pointers[j];
+
             float dx = cell2->getX() - cell1->getX();
             float dy = cell2->getY() - cell1->getY();
             float distance = sqrt(dx * dx + dy * dy);
 
-            if (distance < 2 * radius) {
+            if (distance < 2 * radius + tolerance) {
+                float overlap = 2 * radius - distance;
+
                 float nx = dx / distance;
                 float ny = dy / distance;
-                float kx = (cell1->getSpeed() * cos(cell1->getDirection()) - cell2->getSpeed() * cos(cell2->getDirection()));
-                float ky = (cell1->getSpeed() * sin(cell1->getDirection()) - cell2->getSpeed() * sin(cell2->getDirection()));
-                float p = 2.0 * (nx * kx + ny * ky) / (cell1->getMass() + cell2->getMass());
-                float v1x = cell1->getSpeed() * cos(cell1->getDirection()) - p * cell2->getMass() * nx;
-                float v1y = cell1->getSpeed() * sin(cell1->getDirection()) - p * cell2->getMass() * ny;
-                float v2x = cell2->getSpeed() * cos(cell2->getDirection()) + p * cell1->getMass() * nx;
-                float v2y = cell2->getSpeed() * sin(cell2->getDirection()) + p * cell1->getMass() * ny;
-                v1x *= elasticity;
-                v1y *= elasticity;
-                v2x *= elasticity;
-                v2y *= elasticity;
+
+                // Adjust positions to prevent overlap
+                cell1->setX(cell1->getX() - nx * overlap / 2);
+                cell1->setY(cell1->getY() - ny * overlap / 2);
+                cell2->setX(cell2->getX() + nx * overlap / 2);
+                cell2->setY(cell2->getY() + ny * overlap / 2);
+
+                // Relative velocity
+                float dvx = cell1->getVx() - cell2->getVx();
+                float dvy = cell1->getVy() - cell2->getVy();
+                float vn = dvx * nx + dvy * ny;
+
+                if (vn > 0) continue; // Ensure they are moving towards each other
+
+                float impulse = (2.0f * vn) / (cell1->getMass() + cell2->getMass());
+
+                // Update velocities considering elasticity
+                float v1x = cell1->getVx() - impulse * cell2->getMass() * nx * elasticity;
+                float v1y = cell1->getVy() - impulse * cell2->getMass() * ny * elasticity;
+                float v2x = cell2->getVx() + impulse * cell1->getMass() * nx * elasticity;
+                float v2y = cell2->getVy() + impulse * cell1->getMass() * ny * elasticity;
+
                 cell1->setVelocity(sqrt(v1x * v1x + v1y * v1y), atan2(v1y, v1x));
                 cell2->setVelocity(sqrt(v2x * v2x + v2y * v2y), atan2(v2y, v2x));
             }
         }
 
-        // Handle collisions with walls
         auto cell = pointers[i];
-        if (cell->getX() - radius < 0) { // Left wall
+
+        // Handle wall collisions
+
+        if (cell->getX() - radius < 0 + tolerance) {
             cell->setX(radius);
-            cell->setVelocity(cell->getSpeed() * elasticity, M_PI - cell->getDirection());
-        } else if (cell->getX() + radius > m_groundWidth) { // Right wall
+            float new_vx = -cell->getVx() * elasticity;
+            float new_vy = cell->getVy();
+            cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
+        } else if (cell->getX() + radius > m_groundWidth + tolerance) {
             cell->setX(m_groundWidth - radius);
-            cell->setVelocity(cell->getSpeed() * elasticity, M_PI - cell->getDirection());
+            float new_vx = -cell->getVx() * elasticity;
+            float new_vy = cell->getVy();
+            cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
         }
 
-        if (cell->getY() - radius < 0) { // Top wall (ceiling)
-            if (m_ceiling) {
-                cell->setY(radius);
-                cell->setVelocity(cell->getSpeed() * elasticity, -cell->getDirection());
-            }
-        } else if (cell->getY() + radius > m_wallsHeight) { // Bottom wall (ground)
+        if (m_ceiling && cell->getY() - radius < 0 + tolerance) {
+            cell->setY(radius);
+            float new_vx = cell->getVx();
+            float new_vy = -cell->getVy() * elasticity;
+            cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
+        } else if (cell->getY() + radius > m_wallsHeight + tolerance) {
             cell->setY(m_wallsHeight - radius);
-            cell->setVelocity(cell->getSpeed() * elasticity, -cell->getDirection());
+            float new_vx = cell->getVx();
+            float new_vy = -cell->getVy() * elasticity;
+            cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
         }
     }
 }
-
 
 void Simulation::calculateDistances() {
     auto distanceLambda = [](std::shared_ptr<MassCell> cell1, std::shared_ptr<MassCell> cell2) {
@@ -138,18 +166,15 @@ void Simulation::closeCSV() {
 }
 
 void Simulation::run(float time_step) {
-    for (const auto& cell : pointers) {
-        applyForce(cell, 0, m_gravityCoefficient);
-    }
+    applyGravity(); // Apply gravity to all cells
 
     for (const auto& cell : pointers) {
         cell->move(time_step);
         std::cout << "Moved MassCell with ID: " << cell->getID() << " to position (" << cell->getX() << ", " << cell->getY() << ")" << std::endl;
     }
 
-    handleCollisions(m_reactionCoefficient);
-    calculateDistances(); //it's just an example of lambda func
-    writeToCSV();
+    handleCollisions(m_reactionCoefficient); // Handle collisions
+    writeToCSV(); // Log to CSV
 }
 
 const std::vector<std::shared_ptr<MassCell>>& Simulation::getCells() const {

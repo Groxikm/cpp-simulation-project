@@ -37,6 +37,9 @@ void Simulation::instantiateMassCell(std::shared_ptr<MassCell> cell) {
 }
 
 void Simulation::handleCollisions(float elasticity) {
+    float radius = 10.0; // example, adjust if necessary
+
+    // Handle cell-to-cell collisions
     for (size_t i = 0; i < pointers.size(); ++i) {
         for (size_t j = i + 1; j < pointers.size(); ++j) {
             auto cell1 = pointers[i];
@@ -45,7 +48,6 @@ void Simulation::handleCollisions(float elasticity) {
             float dy = cell2->getY() - cell1->getY();
             float distance = sqrt(dx * dx + dy * dy);
 
-            float radius = 1.0; // example
             if (distance < 2 * radius) {
                 float nx = dx / distance;
                 float ny = dy / distance;
@@ -64,8 +66,29 @@ void Simulation::handleCollisions(float elasticity) {
                 cell2->setVelocity(sqrt(v2x * v2x + v2y * v2y), atan2(v2y, v2x));
             }
         }
+
+        // Handle collisions with walls
+        auto cell = pointers[i];
+        if (cell->getX() - radius < 0) { // Left wall
+            cell->setX(radius);
+            cell->setVelocity(cell->getSpeed() * elasticity, M_PI - cell->getDirection());
+        } else if (cell->getX() + radius > m_groundWidth) { // Right wall
+            cell->setX(m_groundWidth - radius);
+            cell->setVelocity(cell->getSpeed() * elasticity, M_PI - cell->getDirection());
+        }
+
+        if (cell->getY() - radius < 0) { // Top wall (ceiling)
+            if (m_ceiling) {
+                cell->setY(radius);
+                cell->setVelocity(cell->getSpeed() * elasticity, -cell->getDirection());
+            }
+        } else if (cell->getY() + radius > m_wallsHeight) { // Bottom wall (ground)
+            cell->setY(m_wallsHeight - radius);
+            cell->setVelocity(cell->getSpeed() * elasticity, -cell->getDirection());
+        }
     }
 }
+
 
 void Simulation::calculateDistances() {
     auto distanceLambda = [](std::shared_ptr<MassCell> cell1, std::shared_ptr<MassCell> cell2) {
@@ -125,7 +148,7 @@ void Simulation::run(float time_step) {
     }
 
     handleCollisions(m_reactionCoefficient);
-    calculateDistances();
+    calculateDistances(); //it's just an example of lambda func
     writeToCSV();
 }
 

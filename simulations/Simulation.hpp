@@ -1,37 +1,42 @@
+#ifndef SIMULATION_HPP
+#define SIMULATION_HPP
 #include "../lib/mass/MassCell.hpp"
-
 
 #include <vector>
 #include <memory>
+#include <fstream>
 
 class Simulation {
 public:
+    Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long id);
 
-    Simulation(float time_coeff, float gravity_coeff, float reaction_coeff, bool ceiling, float ground_width, float walls_height, long ID); //better to use vectors, later
-    //field logic
-    virtual float getTimeCoefficient() ;
-    virtual void setTimeCoefficient(float m_time_coeff) ;
-    virtual float getGravityCoefficient();
-    virtual void setGravityCoefficient(float m_gravity_coeff) ;
-    virtual float getReactionCoefficient();
-    virtual void setReactionCoefficient(float m_reaction_coeff) ;
-    virtual bool isCeiling() ;
-    virtual void setCeiling(bool ceiling) ;
-    virtual float getGroundWidth() ;
-    virtual void setGroundWidth(float m_ground_width) ;
-    virtual float getWallsHeight();
-    virtual void setWallsHeight(float m_walls_height) ;
-    virtual long getID() ;
-    //objects logic
-    virtual void instantiateMassCell(long id, float x, float y, float mass, float speed, float direction) ;
-    virtual void destroyObject(std::shared_ptr<MassCell> cell);
-    unsigned int getObjectAmount() {return object_amount;}
+    float getTimeCoefficient();
+    void setTimeCoefficient(float time_coeff);
+    float getGravityCoefficient();
+    void setGravityCoefficient(float gravity_coeff);
+    float getReactionCoefficient();
+    void setReactionCoefficient(float reaction_coeff);
+    bool isCeiling();
+    void setCeiling(bool ceiling);
+    float getGroundWidth();
+    void setGroundWidth(float ground_width);
+    float getWallsHeight();
+    void setWallsHeight(float walls_height);
+    long getID();
 
-    virtual void applyGravity(std::shared_ptr<MassCell> cell) ;
-    virtual void run();
+    void applyForce(std::shared_ptr<MassCell> cell, float fx, float fy);
+    void applyForce(float force, float angle, std::shared_ptr<MassCell> cell);
+    void instantiateMassCell(std::shared_ptr<MassCell> cell);
+    void handleCollisions(float elasticity);
+    void calculateDistances();
+    void initializeCSV(const std::string& filename);
+    void writeToCSV();
+    void closeCSV();
+    void run(float time_step);
+
+    const std::vector<std::shared_ptr<MassCell>>& getCells() const; // Add this method
 
 private:
-    const static float m_dt;
     float m_timeCoefficient;
     float m_gravityCoefficient;
     float m_reactionCoefficient;
@@ -40,8 +45,8 @@ private:
     float m_wallsHeight;
     long m_ID;
 
-    unsigned int object_amount;
-
-protected:
     std::vector<std::shared_ptr<MassCell>> pointers;
+    std::ofstream m_csvFile;
 };
+
+#endif

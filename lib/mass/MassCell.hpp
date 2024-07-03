@@ -7,25 +7,28 @@
 #include <cmath>
 #include <iostream>
 
-class MassCell {
+class MassCell : virtual MovableInterface, virtual AbstractCell {
 public:
+    // Abstract methods
+    float getX() override;
+    void setX(float x) override;
+    long getID() override;
+    float getY() override;
+    void setY(float y) override;
+
+    // Movable methods
+    void move(float time_step) override;
+    void setVelocity(float speed, float direction) override;
+    float getSpeed() override;
+    float getDirection() override;
+    float getVx() override;
+    float getVy() override;
+
     MassCell(long id, float x, float y, float mass, float speed, float direction);
     MassCell(const MassCell& other);
     ~MassCell();
-
-    long getID();
-    float getX();
-    void setX(float x);
-    float getY();
-    void setY(float y);
     float getMass();
     void setMass(float mass);
-    float getSpeed();
-    float getDirection();
-    void setVelocity(float speed, float direction);
-    float getVx();
-    float getVy();
-    void move(float time_step);
     void applyForce(float fx, float fy);
 
     MassCell& operator+=(const MassCell& other);

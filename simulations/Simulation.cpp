@@ -45,7 +45,7 @@ void Simulation::instantiateMassCell(std::shared_ptr<MassCell> cell) {
 
 void Simulation::handleCollisions(float elasticity) {
     float radius = 10.0; // Assume a fixed radius for simplicity
-    float tolerance = 0.03f; //to make sure calculations don't mess up
+    float tolerance = -1.6f; //to allow some range of innacuracy for correct work
     // Handle cell-to-cell collisions
     for (size_t i = 0; i < pointers.size(); ++i) {
         for (size_t j = i + 1; j < pointers.size(); ++j) {
@@ -56,8 +56,8 @@ void Simulation::handleCollisions(float elasticity) {
             float dy = cell2->getY() - cell1->getY();
             float distance = sqrt(dx * dx + dy * dy);
 
-            if (distance < 2 * radius + tolerance) {
-                float overlap = 2 * radius - distance;
+            if (distance  < 2 * (radius ) ) {
+                float overlap = 2 * radius - distance - tolerance;
 
                 float nx = dx / distance;
                 float ny = dy / distance;
@@ -73,7 +73,7 @@ void Simulation::handleCollisions(float elasticity) {
                 float dvy = cell1->getVy() - cell2->getVy();
                 float vn = dvx * nx + dvy * ny;
 
-                if (vn > 0) continue; // Ensure they are moving towards each other
+                //if (vn > 0) continue; // Ensure they are moving towards each other
 
                 float impulse = (2.0f * vn) / (cell1->getMass() + cell2->getMass());
 
@@ -92,24 +92,24 @@ void Simulation::handleCollisions(float elasticity) {
 
         // Handle wall collisions
 
-        if (cell->getX() - radius < 0 + tolerance) {
+        if (cell->getX() - radius  < 0 ) {
             cell->setX(radius);
             float new_vx = -cell->getVx() * elasticity;
             float new_vy = cell->getVy();
             cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
-        } else if (cell->getX() + radius > m_groundWidth + tolerance) {
+        } else if (cell->getX() + radius > m_groundWidth ) {
             cell->setX(m_groundWidth - radius);
             float new_vx = -cell->getVx() * elasticity;
             float new_vy = cell->getVy();
             cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
         }
 
-        if (m_ceiling && cell->getY() - radius < 0 + tolerance) {
+        if (m_ceiling && cell->getY() - radius < 0 ) {
             cell->setY(radius);
             float new_vx = cell->getVx();
             float new_vy = -cell->getVy() * elasticity;
             cell->setVelocity(sqrt(new_vx * new_vx + new_vy * new_vy), atan2(new_vy, new_vx));
-        } else if (cell->getY() + radius > m_wallsHeight + tolerance) {
+        } else if (cell->getY() + radius > m_wallsHeight ) {
             cell->setY(m_wallsHeight - radius);
             float new_vx = cell->getVx();
             float new_vy = -cell->getVy() * elasticity;

@@ -5,7 +5,7 @@ import math
 import threading
 
 # Simulation parameters
-time_step = 0.01
+time_step = 120
 gravity = -9.8
 reaction = 0.98
 ceiling = True
@@ -106,7 +106,7 @@ while running:
                 screen.blit(text_mass, (10, 250))
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(time_step)
 
     time_index += 1
     if time_index >= num_frames:

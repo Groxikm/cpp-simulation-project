@@ -9,25 +9,31 @@
 #include <mutex>
 
 // Simulation parameters
-const float timeCoefficient = 0.01f;
+// python parse_and_visualize_csv.py output.csv
+//accuracy parameter
+const float timeCoefficient = 0.0001f;
+//run speed parameters
+const int numSteps = 1500;
+const float  timeStep = 0.02f;
+
+
 const float gravityCoefficient = -9.8f;
-const float reactionCoefficient = 0.98f;
+const float reactionCoefficient = 0.999f;
 const bool ceilingEnabled = true;
 const float groundWidth = 800.0f;
 const float wallsHeight = 600.0f;
 const long simulationID = 1;
-const int numCells = 16;
+const int numCells = 25;
 
-const int maxInitialSpeed = 20;
+const int maxInitialSpeed = 50;
 const int maxInitialX = 800;
 const int maxInitialY = 600;
 const int maxMass = 300;
 
-const int numSteps = 100;
-const float timeStep = 0.1f;
+
 
 const char* outputFilename = "output.csv";
-const int csvLogIntervalMs = 100;
+const int csvLogIntervalMs = 1000;
 
 std::mutex mtx;
 bool running = true;
